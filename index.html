@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>AJAX Test Page</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+
+    <body>
+        <h1>INDEX PAGE</h1>
+
+        <form method="post" id="testForm">
+            <input type="text" name="firstName" placeholder="First Name...">
+            <input type="text" name="lastName" placeholder="Last Name...">
+            <input type="submit" value="Submit">
+        </form>
+
+        <p class="results"></p>
+
+        <script type="text/javascript">
+            var $form = $("#testForm");
+
+            $form.submit(function(event){
+                event.preventDefault();
+                
+                $.post('/form', $form.serialize(), function(data) {
+                    $(".results").html(data.lastName + "<br>" + data.firstName);
+                }, "json");
+            });
+        </script>
+        
+    </body>
+</html>
