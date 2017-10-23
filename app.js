@@ -4,21 +4,20 @@ const path = require('path');
 
 const app = express();
 
-app.use(bodyparser.json())
-app.use(bodyparser.urlencoded({
-  extended: true
-}));
+function reverseString(stringToReverse) {
+  return stringToReverse.split("").reverse().join("");
+}
 
-app.get('/', function(req, res) {
-  res.sendFile("index.html", {
-    "root": "./"
-  });
-});
+app.use(express.static(path.join(__dirname, ".\\")));
+app.use(bodyparser.json())
+app.use(bodyparser.urlencoded({extended: true}));
 
 app.post('/form', function(req, res) {
-  res.json(req.body);
+  console.log('Received data from page:\n' + JSON.stringify(req.body));
+  let response = JSON.parse('{"reversedFirst": "' + reverseString(req.body.firstName) + '", "reversedLast": "' + reverseString(req.body.lastName) + '"}');
+  res.json(response);
 });
 
 app.listen(3000, function() {
-  console.log('Example App listening on port 3000');
+  console.log('Listening on port 3000');
 });
